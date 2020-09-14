@@ -23,11 +23,8 @@ inline uint64_t fromPhysicalValue(float physical_value, float factor, float offs
 
 inline void clearBits(uint8_t* target_byte, uint8_t* bits_to_clear, const uint8_t startbit, const uint8_t length)
 {
-  for (uint8_t i = startbit; i < length + startbit; ++i)
-  {
-    *target_byte &= ~(1UL << i);
-    *bits_to_clear -= 1;
-  }
+  *target_byte &= ~(uint8_t(-1) << startbit & uint8_t(-1) >> 8 - length - startbit);
+  *bits_to_clear -= length;
 }
 
 inline void storeSignal(uint8_t* frame, uint64_t value, const uint8_t startbit, const uint8_t length,
